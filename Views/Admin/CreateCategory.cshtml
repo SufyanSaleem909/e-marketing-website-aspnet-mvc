@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewBag.Title = "CreateCategory";
+}
+
+<h2>CreateCategory</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 8px;
+                font-weight: bold;
+                color: #555;
+            }
+
+            .form-group input {
+                width: 100%;
+                padding: 10px;
+                font-size: 16px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+
+        .btn {
+            display: block;
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .btn:hover {
+                background-color: #0056b3;
+            }
+
+        .message {
+            margin-top: 10px;
+            font-size: 14px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+            .message.error {
+                background-color: #f8d7da;
+                color: #842029;
+            }
+
+            .message.success {
+                background-color: #d1e7dd;
+                color: #0f5132;
+            }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Add Category</h2>
+        <form method="post" action="@Url.Action("CreateCategory", "Admin")" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="cat_name">Category Name</label>
+                <input type="text" id="cat_name" name="cat_name" placeholder="Enter category name" required />
+            </div>
+            <div class="form-group">
+                <label for="cat_image">Category Image</label>
+                <input type="file" id="cat_image" name="cat_image" required />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn">Create Category</button>
+            </div>
+            @if (ViewBag.ErrorMessage != null)
+            {
+<div class="message error">@ViewBag.ErrorMessage</div>            }
+
+            @if (ViewBag.SuccessMessage != null)
+            {
+<div class="message success">@ViewBag.SuccessMessage</div>            }
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "Register";
+    Layout = null; 
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+            
+            background-color: darkcyan;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .register-container {
+            background-color: black;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h2 {
+            text-align: center;
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+                color: darkcyan;
+            }
+
+            .form-group input {
+                width: 100%;
+                padding: 5px 1px ;
+                border: 1px solid #ddd;
+                border-radius: 3px;
+                
+            }
+
+            .form-group button {
+                width: 100%;
+                padding: 10px;
+                background-color: #28a745;
+                color: white;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+            }
+
+                .form-group button:hover {
+                    background-color: #218838;
+                }
+
+        .error-message {
+            color: red;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 10px;
+            color: #007bff;
+        }
+
+            .login-link a {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+                .login-link a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h2>Register</h2>
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <p class="error-message">@ViewBag.ErrorMessage</p>
+        }
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <p style="color: red; text-align: center;">@ViewBag.SuccessMessage</p>
+        }
+        <form method="post" action="@Url.Action("Register", "User")">
+            <div class="form-group">
+                <label for="u_name">Name</label>
+                <input type="text" id="u_name" name="u_name" required />
+            </div>
+            <div class="form-group">
+                <label for="u_email">Email</label>
+                <input type="email" id="u_email" name="u_email" required />
+            </div>
+            <div class="form-group">
+                <label for="u_contact">Contact</label>
+                <input type="text" id="u_contact" name="u_contact" required />
+            </div>
+            <div class="form-group">
+                <label for="u_password">Password</label>
+                <input type="password" id="u_password" name="u_password" required />
+            </div>
+            <div class="form-group">
+                <label for="u_image">Profile Image</label>
+                <input type="file" id="u_image" name="u_image" accept="image/*" required />
+            </div>
+            <div class="form-group">
+                <button type="submit">Register</button>
+            </div>
+        </form>
+        <p class="login-link">
+            Already have an account? <a href="@Url.Action("UserLogin", "User")">Login here</a>.
+        </p>
+    </div>
+</body>
+</html>

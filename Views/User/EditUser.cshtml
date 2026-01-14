@@ -1,0 +1,73 @@
+﻿@model SDA_Project.Models.tbl_user
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit Details</title>
+   <style>
+       header {
+           background: rgb(0, 0, 0);
+           color: #fff;
+           text-align: center;
+           box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+           background-blend-mode: overlay;
+           box-sizing: border-box; 
+           margin: 0; 
+       }
+
+       .btn[type="submit"] {
+           background: black;
+           color: white;
+       }
+
+       header h1 {
+           font-size: 3.5em;
+           margin-bottom: 5px;
+           font-weight: 500;
+       }
+    
+   </style>
+</head>
+<body>
+    <h1>EDIT DETAILS</h1>
+
+    @using (Html.BeginForm("EditUser", "User", FormMethod.Post))
+    {
+        <div>
+            <label for="u_name">Name:</label>
+            @Html.TextBoxFor(m => m.u_name, new { @class = "form-control" })
+        </div>
+        <div>
+            <label for="u_email">Email:</label>
+            @Html.TextBoxFor(m => m.u_email, new { @class = "form-control" })
+        </div>
+        <div>
+            <label for="u_contact">Contact:</label>
+            @Html.TextBoxFor(m => m.u_contact, new { @class = "form-control" })
+        </div>
+        <div>
+            <label for="u_password">Password:</label>
+            @Html.PasswordFor(m => m.u_password, new { @class = "form-control" })
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary">Save Changes</button>}
+    <form method="post" action="@Url.Action("Logout", "User")" style="margin: 0;">
+        <button type="submit" class="btn btn-primary">Logout</button>
+    </form>
+
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <p style="color:red;">@ViewBag.ErrorMessage</p>}
+
+    @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+    {
+        <p style="color:green;">@ViewBag.SuccessMessage</p>}
+
+</body>
+</html>

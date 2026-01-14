@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        .dashboard-container {
+            position: relative;
+        }
+
+        .dashboard-icon {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+            .dashboard-icon span {
+                width: 40px;
+                height: 5px;
+                background-color: #007bff;
+                border-radius: 3px;
+                transition: background-color 0.3s ease;
+            }
+
+                .dashboard-icon span:hover {
+                    background-color: #0056b3;
+                }
+
+       
+        .menu-links {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+            .menu-links a {
+                color: #007bff;
+                text-decoration: none;
+                padding: 10px 15px;
+                border-radius: 5px;
+                margin: 5px 0;
+                background-color: #fff;
+                transition: background-color 0.3s ease;
+            }
+
+                .menu-links a:hover {
+                    background-color: #007bff;
+                    color: #fff;
+                }
+
+        .dashboard-icon.active span:nth-child(1) {
+            transform: rotate(45deg);
+            position: relative;
+            top: 10px;
+        }
+
+        .dashboard-icon.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .dashboard-icon.active span:nth-child(3) {
+            transform: rotate(-45deg);
+            position: relative;
+            top: -10px;
+        }
+
+        .dashboard-icon.active + .menu-links {
+            display: flex;
+        }
+        footer {
+            text-align: center;
+            padding: 12px;
+            background:#000000;
+            color: #f5f5f5;
+            font-size: 0.9em;
+            background-image: url('footer-background.jpg');
+            background-size: cover;
+            
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="dashboard-container">
+            <div class="dashboard-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            
+        </div>
+        <h1 id="header-title">SAY Online</h1>
+        
+
+
+    </header>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script>
+        document.querySelector('.dashboard-icon').addEventListener('click', function () {
+            this.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

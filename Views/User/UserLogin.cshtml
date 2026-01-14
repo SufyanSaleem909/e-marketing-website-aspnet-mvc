@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "User Login";
+}
+
+<h2>User Login</h2>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <style>
+    header {
+    background: rgb(0, 0, 0);
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    background-blend-mode: overlay;
+    box-sizing: border-box;
+    margin: 0; 
+    }
+        .btn[type="submit"] {
+            background: black;
+            color: white;
+        }
+    header h1 {
+    font-size: 3.5em;
+    margin-bottom: 5px;
+    font-weight: 500;
+    }
+    body{
+    background-color: darkcyan;
+    }
+    .a {
+    font-size: 60px;
+
+    }
+    .login-link a{
+        color:black;
+    }
+        
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <form method="post" action="@Url.Action("UserLogin", "User")">
+            <div class="form-group">
+                <label for="u_name">Username</label>
+                <input type="text" id="u_name" name="u_name" required />
+            </div>
+            <div class="form-group">
+                <label for="u_password">Password</label>
+                <input type="password" id="u_password" name="u_password" required />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn">Login</button>
+            </div>
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="message error">@ViewBag.ErrorMessage</div>
+            }
+        </form>
+        <p class="login-link">
+            Don't have an account? <a href="@Url.Action("Register", "User")"><b>Register here</b></a>.
+        </p>
+    </div>
+
+</body>
+</html>

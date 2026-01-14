@@ -1,0 +1,155 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Manage User Products</title>
+    <style>
+        body {
+            background-color: #f4f4f4; 
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1200px; 
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff; 
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+        }
+
+        h1 {
+            color: #333; 
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd; 
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #f1f1f1;
+        }
+
+        .success {
+            color: green;
+            margin-bottom: 15px; 
+        }
+
+        .error {
+            color: red;
+            margin-bottom: 15px; 
+        }
+
+        form {
+            display: flex; 
+            align-items: center; 
+        }
+
+        select {
+            margin-right: 10px; 
+            padding: 5px; 
+            border-radius: 5px;
+            border: 1px solid #ccc; 
+        }
+
+        button[type="submit"] {
+            padding: 6px 12px;
+            background-color: #007bff; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            button[type="submit"]:hover {
+                background-color: #0056b3; 
+            }
+        button[type="submit-1"] {
+            padding: 6px 12px;
+            background-color: #000000; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            button[type="submit-1"]:hover {
+                background-color: grey; 
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Manage User Products</h1>
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <p class="error">@ViewBag.ErrorMessage</p>
+        }
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <p class="success">@ViewBag.SuccessMessage</p>
+        }
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Posted By</th>
+                    <th>Assign Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Product.pro_name</td>
+                        <td>@item.Product.pro_price</td>
+                        <td>@(item.Product.tbl_category != null ? item.Product.tbl_category.cat_name : "Unassigned")</td>
+                        <td>
+                            <strong>@(item.User != null ? item.User.u_name : "No User")</strong><br />
+                            Email: @(item.User?.u_email ?? "N/A")<br />
+                            Contact: @(item.User?.u_contact ?? "N/A")
+                        </td>
+                        <td>
+                            <form method="post" action="@Url.Action("AssignCategoryToProduct", "Admin")">
+                                <input type="hidden" name="pro_id" value="@item.Product.pro_id" />
+                                <select name="pro_fk_cat">
+                                    @foreach (var category in ViewBag.Categories)
+                                    {
+                                        <option value="@category.cat_id" @(category.cat_id == item.Product.pro_fk_cat ? "selected" : "")>
+                                            @category.cat_name
+                                        </option>
+                                    }
+                                </select>
+                                <button type="submit">Assign</button>
+                            </form>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+        <form method="post" action="@Url.Action("Logout", "Admin")" style="margin: 0;">
+            <button type="submit-1" class="logout-button">Logout</button>
+        </form>
+    </div>
+</body>
+</html>

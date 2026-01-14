@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "SAY Online Marketing";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <style>
+        header {
+            background: rgb(0, 0, 0);
+            color: #fff;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            background-blend-mode: overlay;
+            box-sizing: border-box; 
+            margin: 0; 
+        }
+            header h1 {
+                font-size: 3.5em;
+                margin-bottom: 5px;
+                font-weight: 500;
+            }
+            body{
+                background-color: darkcyan;
+            }
+            .a {
+                font-size: 60px;
+
+            }
+            
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <p class="a">Login</p>
+        <form method="post" action="@Url.Action("Login", "Admin")">
+            <div class="form-group">
+                <label for="ad_username" style="font-size: 20px">Username</label>
+                <input type="text" id="ad_username" name="ad_username" required />
+            </div>
+            <div class="form-group">
+                <label for="ad_password" style="font-size: 20px">Password</label>
+                <input type="password" id="ad_password" name="ad_password" required />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn">Login</button>
+            </div>
+
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="message error">@ViewBag.ErrorMessage</div>
+            }
+        </form>
+    </div>
+</body>
+</html>

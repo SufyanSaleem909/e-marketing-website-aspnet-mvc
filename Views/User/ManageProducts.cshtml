@@ -1,0 +1,242 @@
+﻿@{
+    ViewBag.Title = "Manage Products";
+    Layout = null; 
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Products</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+
+        body {
+           
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .manage-products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .add-product-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 300px;
+        }
+
+            .add-product-form input,
+            .add-product-form select,
+            .add-product-form button {
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+            }
+
+            .add-product-form button {
+                background-color: #007bff; 
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+
+                .add-product-form button:hover {
+                    background-color: #0056b3; 
+                }
+
+        .product-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+
+            .product-table th,
+            .product-table td {
+                padding: 12px;
+                text-align: left;
+                border: 1px solid #ddd; 
+            }
+
+            .product-table th {
+                background-color: #f1f1f1; 
+            }
+
+            .product-table tbody tr:hover {
+                background-color: #f9f9f9; 
+            }
+
+        .product-actions button {
+            background-color: #dc3545; 
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+            margin-right: 5px; 
+        }
+
+            .product-actions button:hover {
+                background-color: #c82333; 
+            }
+
+        .logout-button {
+            padding: 10px 20px;
+            background-color:black; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px; 
+            display: block; 
+            width: 70;
+            text-align: center;
+            justify-content:center;
+        }
+
+            .logout-button:hover {
+                background-color: grey; 
+            }
+
+        .error-message,
+        .success-message {
+            text-align: center; 
+            margin-top: 10px; 
+            padding: 10px; 
+            border-radius: 5px; 
+        }
+
+        .error-message {
+            background-color: #f8d7da; 
+            color: #721c24; 
+        }
+
+        .success-message {
+            background-color: #d4edda;
+            color: #155724; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Manage Products</h1>
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="error-message">@ViewBag.ErrorMessage</div>
+        }
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <div class="success-message">@ViewBag.SuccessMessage</div>
+        }
+
+        <form method="post" enctype="multipart/form-data" action="@Url.Action("ManageProducts", "User")" class="add-product-form">
+            <input type="hidden" name="actionType" value="SaveProduct" />
+            <input type="hidden" name="pro_id" id="product-id" />
+
+            <label for="pro_name">Name</label>
+            <input type="text" name="pro_name" id="product-name" required />
+
+            <label for="pro_price">Price</label>
+            <input type="number" name="pro_price" id="product-price" required />
+
+            <label for="pro_fk_cat">Category</label>
+            <select name="pro_fk_cat" id="product-category" required>
+                <option value="">Select a Category</option>
+                @foreach (var cat in ViewBag.Categories as List<SDA_Project.Models.tbl_category>)
+                {
+                    <option value="@cat.cat_id">@cat.cat_name</option>
+                }
+            </select>
+
+            <label for="pro_description">Description</label>
+            <textarea name="pro_description" id="product-description" required></textarea>
+
+            <label for="pro_image">Image</label>
+            <input type="file" name="pro_image" id="product-image" />
+
+            <button type="submit">Save</button>
+        </form>
+
+        <h3>Your Products</h3>
+        <table class="product-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.pro_name</td>
+                        <td>@product.pro_price.ToString("C")</td> <!-- Format price as currency -->
+                        <td>@(product.tbl_category != null ? product.tbl_category.cat_name : "Unassigned")</td>
+                        <!-- Handle unassigned categories -->
+                        <td>@product.pro_des</td>
+                        <td><img src="@Url.Content(product.pro_image)" alt="@product.pro_name Image" style="width: 50px; height:auto;" /></td> <!-- Responsive image size -->
+                        <td class="product-actions">
+                            <button onclick="editProduct(@product.pro_id, '@product.pro_name', @product.pro_price, @product.pro_fk_cat, '@product.pro_des')">Edit</button>
+                            <form method="post" style="display:inline;" action="@Url.Action("ManageProducts", "User")">
+                                <input type="hidden" name="actionType" value="DeleteProduct" />
+                                <input type="hidden" name="pro_id" value="@product.pro_id" />
+                                <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+        <form method="post" action="@Url.Action("Logout", "User")" style="margin: 0;">
+            <a href="@Url.Action("EditUser", "User")" class="logout-button">Edit User Profile</a>
+            <button type="submit" class="logout-button">Logout</button>
+
+        </form>
+
+    </div>
+
+    <!-- JavaScript function to populate the form for editing -->
+    <script>
+        function editProduct(id, name, price, category, description) {
+            document.getElementById("product-id").value = id;
+            document.getElementById("product-name").value = name;
+            document.getElementById("product-price").value = price.toFixed(2); // Ensure two decimal places
+            document.getElementById("product-category").value = category; // Set selected category
+            document.getElementById("product-description").value = description; // Set description
+        }
+    </script>
+
+</body>
+</html>

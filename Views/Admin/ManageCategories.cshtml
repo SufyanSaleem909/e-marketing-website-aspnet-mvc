@@ -1,0 +1,171 @@
+﻿@{
+    ViewBag.Title = "Manage Categories";
+    Layout = null; 
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+
+        .form-container, .category-list-container {
+            background-color: #ffffff;
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            color: #333; 
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold; 
+        }
+
+        input[type="text"], input[type="file"] {
+            width: calc(100% - 20px); 
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        button[type="submit"] {
+            padding: 10px 15px;
+            background-color: #28a745; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+            button[type="submit"]:hover {
+                background-color: #218838; 
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px; 
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .manage-products-btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #007bff; 
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+            .manage-products-btn:hover {
+                background-color: #0056b3; 
+            }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Add Category</h2>
+        <form method="post" action="@Url.Action("ManageCategories", "Admin")" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="cat_name">Category Name:</label>
+                <input type="text" id="cat_name" name="cat_name" required />
+            </div>
+            <div class="form-group">
+                <label for="cat_image">Category Image:</label>
+                <input type="file" id="cat_image" name="cat_image" required />
+            </div>
+            <button type="submit">Add Category</button>
+            <br />
+            @if (ViewBag.SuccessMessage != null)
+            {
+                <p class="success">@ViewBag.SuccessMessage</p>
+            }
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <p class="error">@ViewBag.ErrorMessage</p>
+            }
+        </form>
+    </div>
+
+    <div class="category-list-container">
+        <h2>Category List</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var category in Model)
+                {
+                    <tr>
+                        <td>@category.cat_id</td>
+                        <td>@category.cat_name</td>
+                        <td><img src="@Url.Content(category.cat_image)" alt="Category Image" width="100" /></td>
+                        <td>
+                            <form method="post" action="@Url.Action("DeleteCategory", "Admin")">
+                                <input type="hidden" name="id" value="@category.cat_id" />
+                                <button type="submit" style="color: red;">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    
+    <div>
+        <a href="@Url.Action("ManageUserProducts", "Admin")" class="manage-products-btn">Manage User Products</a>
+    </div>
+    <form method="post" action="@Url.Action("Logout", "Admin")" style="margin: 0;">
+        <button type="submit" class="logout-button">Logout</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "SAY Online";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Welcome to SAY Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+         
+            background-color: darkcyan;
+            margin: 0;
+            color: #f5f5f5;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .btn {
+            font-size: 18px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: white;
+            color: black;
+            border: none;
+        }
+
+        .btn:hover {
+            opacity:0.9 ;
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: black;
+            border: none;
+        }
+
+        .btn:hover {
+            color: grey;
+        }
+        header {
+            background: rgb(0, 0, 0);
+            color: #fff;
+            padding: 20px 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            background-blend-mode: overlay;
+            box-sizing: border-box; 
+            margin: 0; 
+        }
+
+            header h1 {
+                font-size: 3.5em;
+                margin-bottom: 15px;
+                font-weight: 600;
+            }
+
+            header p {
+                font-size: 1.6em;
+                margin-top: 10px;
+            }
+        
+
+            
+
+       
+    </style>
+
+</head>
+
+<body>
+
+    
+    <h1 style="text-align:center;">Login As:</h1>
+    <div style="text-align:center; margin-top: 50px;">
+        <a href="@Url.Action("Login", "Admin")" class="btn btn-primary" style="margin-right: 20px; padding: 10px 20px;">Admin</a>
+        <a href="@Url.Action("UserLogin", "User")" class="btn btn-secondary" style="padding: 10px 20px;">User</a>
+    </div>
+    
+</body>
+</html>
